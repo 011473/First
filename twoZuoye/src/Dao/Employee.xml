@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	<mapper namespace="Dao.EmployeeDao">
+		<resultMap type="pojo.Employee" id="nio">
+			<id property="eid" column="eid"/>
+			<result property="ename" column="ename"/>
+			<result property="companyId" column="companyId"/>
+		 	<association property="comp" javaType="pojo.company" column="companyId">
+				<id property="cid" column="cid"/>
+				<result property="cname" column="cname"/>
+			</association> 
+		</resultMap>
+		<select id="liee" resultMap="nio">
+			select * from company 
+			join employee ON
+			company.cid=employee.companyid
+		</select>
+		<delete id="delete" parameterType="int">
+			delete from employee where eid=#{del}
+		</delete>
+		
+		<delete id="deleteG" parameterType="int">
+			DELETE from employee WHERE companyid=#{delg}
+		</delete>
+		<insert id="insert" parameterType="pojo.Employee">
+			insert into employee (ename,companyId) values(#{ename},#{companyId}); 
+		</insert>
+	</mapper>
